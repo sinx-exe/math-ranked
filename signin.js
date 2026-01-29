@@ -2,15 +2,15 @@
         document.getElementById('signinForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const remember = document.getElementById('remember').checked;
 
             // In a real application, you would send this data to your backend
-            console.log('Sign in attempt:', { email, password, remember });
+            console.log('Sign in attempt:', { username, password, remember });
             
             // Example: Show success message
-            alert('Sign in functionality would authenticate with your backend here.\n\nEmail: ' + email);
+            alert('Sign in functionality would authenticate with your backend here.\n\nUsername: ' + username);
             
             // In production, you would do something like:
             // fetch('/api/auth/signin', {
