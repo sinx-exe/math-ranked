@@ -78,6 +78,7 @@
             font-weight: 700;
             color: var(--primary);
             letter-spacing: -0.5px;
+            text-decoration: none;
         }
 
         .nav-links {
