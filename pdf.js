@@ -63,7 +63,7 @@ function handleFile(file) {
     }
     
     // Check file size (10MB limit)
-    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    const maxSize = 10 * 1024 * 1024; 
     if (file.size > maxSize) {
         alert('File size exceeds 10MB limit');
         return;
@@ -110,6 +110,7 @@ function simulateUpload() {
             progress = 100;
             clearInterval(interval);
             progressText.textContent = 'Upload complete!';
+            generateBtn.disabled = false;
         }
         
         progressFill.style.width = progress + '%';
