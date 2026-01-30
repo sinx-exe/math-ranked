@@ -3,180 +3,565 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MathRanked - Master AMC 8/10/12 Competitions</title>
-    <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/previews/021/710/974/non_2x/podium-icon-vector.jpg"/>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css" /> 
+    <title>StudyEZ - Transform PDFs into Study Guides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,300&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FFF8F0;
+            --deep-blue: #1B2B4A;
+            --bright-coral: #FF6B6B;
+            --soft-mint: #4ECDC4;
+            --warm-yellow: #FFE66D;
+            --rich-purple: #6C5CE7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--deep-blue);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 5.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-text h1 .highlight {
+            color: var(--bright-coral);
+            font-style: italic;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-text h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: -10px;
+            right: -10px;
+            height: 20px;
+            background: var(--warm-yellow);
+            z-index: -1;
+            transform: rotate(-1deg);
+            animation: underlineExpand 0.6s ease-out 1s both;
+        }
+
+        @keyframes underlineExpand {
+            from {
+                width: 0;
+            }
+            to {
+                width: calc(100% + 20px);
+            }
+        }
+
+        .hero-text p {
+            font-size: 1.35rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            color: rgba(27, 43, 74, 0.8);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .primary-btn {
+            background: var(--bright-coral);
+            color: white;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            display: inline-block;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: var(--deep-blue);
+            padding: 1.2rem 3rem;
+            border: 2px solid var(--deep-blue);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .secondary-btn:hover {
+            background: var(--deep-blue);
+            color: var(--cream);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .pdf-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(27, 43, 74, 0.15);
+            position: relative;
+            transform: rotate(-3deg);
+            transition: transform 0.5s;
+        }
+
+        .pdf-card:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .pdf-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .pdf-line {
+            height: 8px;
+            background: linear-gradient(90deg, var(--deep-blue) 0%, rgba(27, 43, 74, 0.3) 100%);
+            border-radius: 4px;
+            animation: lineGrow 0.6s ease-out both;
+        }
+
+        .pdf-line:nth-child(1) { width: 100%; animation-delay: 0.8s; }
+        .pdf-line:nth-child(2) { width: 85%; animation-delay: 0.9s; }
+        .pdf-line:nth-child(3) { width: 95%; animation-delay: 1s; }
+        .pdf-line:nth-child(4) { width: 75%; animation-delay: 1.1s; }
+
+        @keyframes lineGrow {
+            from {
+                width: 0;
+            }
+        }
+
+        .arrow-transform {
+            text-align: center;
+            font-size: 3rem;
+            color: var(--bright-coral);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .study-guide-card {
+            background: linear-gradient(135deg, var(--soft-mint) 0%, var(--rich-purple) 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            color: white;
+            margin-top: 1.5rem;
+            box-shadow: 0 20px 60px rgba(108, 92, 231, 0.3);
+            transform: rotate(2deg);
+        }
+
+        .study-guide-card h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .bullet-points {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .bullet {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .bullet::before {
+            content: '✓';
+            background: white;
+            color: var(--rich-purple);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 3rem;
+            background: white;
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, var(--cream) 0%, white 100%);
+        }
+
+        .features-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .features-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: rgba(27, 43, 74, 0.7);
+            margin-bottom: 5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .feature-card {
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--cream) 0%, white 100%);
+            z-index: -1;
+        }
+
+        .feature-card:nth-child(1)::before {
+            background: linear-gradient(135deg, #FFE5E5 0%, white 100%);
+        }
+
+        .feature-card:nth-child(2)::before {
+            background: linear-gradient(135deg, #E5F9F7 0%, white 100%);
+        }
+
+        .feature-card:nth-child(3)::before {
+            background: linear-gradient(135deg, #FFF9E5 0%, white 100%);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            line-height: 1.7;
+            color: rgba(27, 43, 74, 0.8);
+            font-size: 1.05rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 6rem 3rem;
+            background: var(--deep-blue);
+            color: white;
+        }
+
+        .stats-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--warm-yellow);
+        }
+
+        .stat-item p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 8rem 3rem;
+            background: linear-gradient(135deg, var(--bright-coral) 0%, var(--rich-purple) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .final-cta p {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+        }
+
+        .final-cta .primary-btn {
+            background: white;
+            color: var(--bright-coral);
+            font-size: 1.2rem;
+        }
+
+        .final-cta .primary-btn:hover {
+            background: var(--cream);
+        }
+
+        /* Decorative Elements */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .shape1 {
+            width: 200px;
+            height: 200px;
+            background: var(--soft-mint);
+            top: 10%;
+            right: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape2 {
+            width: 150px;
+            height: 150px;
+            background: var(--warm-yellow);
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape3 {
+            width: 100px;
+            height: 100px;
+            background: var(--rich-purple);
+            top: 50%;
+            left: 5%;
+            animation-delay: 4s;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-    <div class="grid-overlay"></div>
-
-    <header>
-        <nav>
-            <a href="index.html" class="logo"><button>MathRanked</button></a>
-            <a href="signin.html"><button class="btn-signin">Sign In</button></a>
-        </nav>
-    </header>
-
-    <section class="hero" id="home">
+    <section class="hero">
+        <div class="floating-shape shape1"></div>
+        <div class="floating-shape shape2"></div>
+        <div class="floating-shape shape3"></div>
+        
         <div class="hero-content">
             <div class="hero-text">
-                <div class="subtitle">Competition math, but RANKED</div>
-                <h1>MathRanked</h1>
-                <p>Master the AMC 8, 10, and 12 competitions with intelligent practice, expert solutions, and personalized learning paths.</p>
-                <div class="cta-buttons">
-                    <a href="#features" class="btn btn-primary">Get Started</a>
-                    <a href="#competitions" class="btn btn-secondary">Explore Competitions</a>
+                <h1>Turn Your Notes Into <span class="highlight">Study Magic</span></h1>
+                <p>Upload your PDF notes and watch as StudyEZ transforms them into personalized study guides that cut your study time in half and boost your performance by 40%.</p>
+                <div class="hero-cta">
+                    <a href="#" class="primary-btn">Transform My Notes</a>
+                    <a href="#" class="secondary-btn">See How It Works</a>
                 </div>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
+            
+            <div class="hero-visual">
+                <div class="pdf-card">
+                    <div class="pdf-lines">
+                        <div class="pdf-line"></div>
+                        <div class="pdf-line"></div>
+                        <div class="pdf-line"></div>
+                        <div class="pdf-line"></div>
+                    </div>
+                    <div class="arrow-transform">↓</div>
+                    <div class="study-guide-card">
+                        <h3>Your Study Guide</h3>
+                        <div class="bullet-points">
+                            <div class="bullet">Key concept explained</div>
+                            <div class="bullet">Practice questions</div>
+                            <div class="bullet">Memory techniques</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="features" id="features">
-        <div class="section-header">
-            <h2 class="section-title">Powerful Features</h2>
-            <p class="section-subtitle">Everything you need to dominate the AMC competitions</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Adaptive Learning</h3>
-                <p>AI-powered system learns your skill level and generates problem sets that challenge you at the right difficulty.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏆</div>
-                <h3>Ranked System</h3>
-                <p>Too bored of doing problems over and over? Our ranked system can make that tedium feel rewarding.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🥇</div>
-                <h3>Mock Competitions</h3>
-                <p>Full-length practice tests that mirror actual AMC format, complete with scoring.</p>
+        <div class="features-content">
+            <h2>Why Students Love StudyEZ</h2>
+            <p class="features-subtitle">Everything you need to ace your exams in one intelligent platform</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Instant Transformation</h3>
+                    <p>Upload any PDF and get a comprehensive study guide in seconds. Our AI analyzes your notes and creates summaries, flashcards, and practice questions automatically.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Learning</h3>
+                    <p>Personalized study plans adapt to your learning style. Focus on weak areas and reinforce strengths with intelligent spaced repetition.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Track Progress</h3>
+                    <p>See your improvement in real-time with detailed analytics. Know exactly what you've mastered and what needs more attention.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="competitions" id="competitions">
-        <div class="section-header">
-            <h2 class="section-title">Choose Your Path</h2>
-            <p class="section-subtitle">Specialized training for each competition level</p>
-        </div>
-        <div class="comp-cards">
-            <div class="comp-card">
-                <div class="comp-badge">AMC 8</div>
-                <h3>Foundation Level</h3>
-                <p class="grade">Grades 8 and below</p>
-                <ul class="comp-features">
-                    <li>25 questions in 40 minutes</li>
-                    <li>Multiple choice format</li>
-                    <li>Algebra, Geometry, & Logic</li>
-                    <li>Problem solving fundamentals</li>
-                    <li>Introduction to proof techniques</li>
-                </ul>
-                <a href="amc8.html" class="btn btn-primary">Explore AMC 8</a>
+    <section class="stats">
+        <div class="stats-content">
+            <div class="stat-item">
+                <h3>50%</h3>
+                <p>Less Study Time Required</p>
             </div>
-            <div class="comp-card">
-                <div class="comp-badge">AMC 10</div>
-                <h3>Intermediate Level</h3>
-                <p class="grade">Grades 10 and below</p>
-                <ul class="comp-features">
-                    <li>25 questions in 75 minutes</li>
-                    <li>Advanced problem solving</li>
-                    <li>Number theory & Combinatorics</li>
-                    <li>Complex algebraic techniques</li>
-                    <li>Geometric reasoning</li>
-                </ul>
-                <a href="#" class="btn btn-primary">Explore AMC 10</a>
+            <div class="stat-item">
+                <h3>40%</h3>
+                <p>Average Grade Improvement</p>
             </div>
-            <div class="comp-card">
-                <div class="comp-badge">AMC 12</div>
-                <h3>Advanced Level</h3>
-                <p class="grade">Grades 12 and below</p>
-                <ul class="comp-features">
-                    <li>25 questions in 75 minutes</li>
-                    <li>Pre-calculus mathematics</li>
-                    <li>Advanced geometry & Trig</li>
-                    <li>Complex number theory</li>
-                    <li>Competition-level strategies</li>
-                </ul>
-                <a href="#" class="btn btn-primary">Explore AMC 12</a>
+            <div class="stat-item">
+                <h3>100K+</h3>
+                <p>Students Trust StudyEZ</p>
             </div>
         </div>
     </section>
 
-    <section class="practice" id="practice">
-        <div class="practice-content">
-            <h2>Start Practicing Today</h2>
-            <p>Access our comprehensive problem bank organized by topic and difficulty</p>
-            <div class="practice-grid">
-                <div class="practice-item">
-                    <h4>Algebra</h4>
-                    <p>Equations, inequalities, polynomials, and sequences</p>
-                </div>
-                <div class="practice-item">
-                    <h4>Geometry</h4>
-                    <p>Circles, triangles, polygons, and coordinate geometry</p>
-                </div>
-                <div class="practice-item">
-                    <h4>Number Theory</h4>
-                    <p>Divisibility, primes, modular arithmetic, and Diophantine equations</p>
-                </div>
-                <div class="practice-item">
-                    <h4>Combinatorics</h4>
-                    <p>Counting, probability, permutations, and combinations</p>
-                </div>
-            </div>
-            <a href="#" class="btn btn-primary">Browse All Topics</a>
-        </div>
+    <section class="final-cta">
+        <h2>Ready to Study Smarter?</h2>
+        <p>Join thousands of students who've transformed their study habits with StudyEZ.</p>
+        <a href="#" class="primary-btn">Get Started Free - No Credit Card Required</a>
     </section>
-
-
-
-    <footer id="about">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>CompTrainer</h4>
-                <p>Empowering students to achieve mathematical excellence through innovative training and adaptive learning.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">How It Works</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Success Stories</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Problem Archive</a></li>
-                    <li><a href="#">Study Guides</a></li>
-                    <li><a href="#">Video Library</a></li>
-                    <li><a href="#">Community Forum</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 MathRanked. All the rights, all the math</p>
-        </div>
-    </footer>
-<script src="index.js"></script>
-
 </body>
 </html>
