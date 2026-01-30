@@ -180,21 +180,34 @@ viewBtn.addEventListener('click', () => {
     // window.location.href = 'study-guide.html';
 });
 
+// View study guide button
+viewBtn.addEventListener('click', () => {
+    // In a real application, this would navigate to the study guide page
+    alert('Redirecting to your study guide...');
+    // window.location.href = 'study-guide.html';
+    
+    // Reset after viewing
+    resetUploadForm();
+});
+
 // Close modal when clicking outside
 successModal.addEventListener('click', (e) => {
     if (e.target === successModal) {
         successModal.style.display = 'none';
-        
-        // Reset for another upload
-        selectedFile = null;
-        fileInput.value = '';
-        filePreview.style.display = 'none';
-        uploadArea.style.display = 'block';
-        generateBtn.disabled = true;
-        generateBtn.innerHTML = '<span class="btn-text">Generate Study Guide</span><span class="btn-icon">→</span>';
-        progressFill.style.width = '0%';
+        resetUploadForm();
     }
 });
+
+// Reset upload form function
+function resetUploadForm() {
+    selectedFile = null;
+    fileInput.value = '';
+    filePreview.style.display = 'none';
+    uploadArea.style.display = 'block';
+    generateBtn.disabled = true;
+    generateBtn.innerHTML = '<span class="btn-text">Generate Study Guide</span><span class="btn-icon">→</span>';
+    progressFill.style.width = '0%';
+}
 
 // Prevent default drag behavior on the whole page
 document.addEventListener('dragover', (e) => {
