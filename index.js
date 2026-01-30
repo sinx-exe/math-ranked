@@ -1,123 +1,207 @@
-// Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+// Get DOM elements
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+const browseBtn = document.getElementById('browseBtn');
+const filePreview = document.getElementById('filePreview');
+const fileName = document.getElementById('fileName');
+const fileSize = document.getElementById('fileSize');
+const removeBtn = document.getElementById('removeBtn');
+const generateBtn = document.getElementById('generateBtn');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const successModal = document.getElementById('successModal');
+const viewBtn = document.getElementById('viewBtn');
 
-        // Add scroll animation for header
-        let lastScroll = 0;
-        const header = document.querySelector('header');
+let selectedFile = null;
 
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll <= 0) {
-                header.style.boxShadow = 'none';
-            } else {
-                header.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
-            }
-            
-            lastScroll = currentScroll;
-        });
+// Browse button click
+browseBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    fileInput.click();
+});
 
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+// Upload area click
+uploadArea.addEventListener('click', () => {
+    fileInput.click();
+});
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+// File input change
+fileInput.addEventListener('change', (e) => {
+    handleFile(e.target.files[0]);
+});
 
-        // Observe all animated elements
-        document.querySelectorAll('.feature-card, .comp-card, .practice-item').forEach(el => {
-            observer.observe(el);
-        });
+// Drag and drop events
+uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('drag-over');
+});
 
-        // Authentication Modal
-        const authModal = document.getElementById('authModal');
-        const openAuthBtn = document.getElementById('openAuthModal');
-        const closeAuthBtn = document.getElementById('closeAuthModal');
-        const switchToSignup = document.getElementById('switchToSignup');
-        const switchToSignin = document.getElementById('switchToSignin');
-        const authTitle = document.getElementById('authTitle');
-        const authSubtitle = document.getElementById('authSubtitle');
-        const authSubmit = document.getElementById('authSubmit');
-        const authFooterText = document.getElementById('authFooterText');
+uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('drag-over');
+});
 
-        let isSignupMode = false;
+uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('drag-over');
+    
+    const file = e.dataTransfer.files[0];
+    if (file && file.type === 'application/pdf') {
+        handleFile(file);
+    } else {
+        alert('Please upload a PDF file');
+    }
+});
 
-        openAuthBtn.addEventListener('click', () => {
-            authModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+// Handle file selection
+function handleFile(file) {
+    if (!file) return;
+    
+    // Check if it's a PDF
+    if (file.type !== 'application/pdf') {
+        alert('Please upload a PDF file');
+        return;
+    }
+    
+    // Check file size (10MB limit)
+    const maxSize = 10 * 1024 * 1024; 
+    if (file.size > maxSize) {
+        alert('File size exceeds 10MB limit');
+        return;
+    }
+    
+    selectedFile = file;
+    
+    // Update file preview
+    fileName.textContent = file.name;
+    fileSize.textContent = formatFileSize(file.size);
+    
+    // Hide upload area and show preview
+    uploadArea.style.display = 'none';
+    filePreview.style.display = 'block';
+    
+    // Enable generate button
+    generateBtn.disabled = false;
+    
+    // Simulate upload progress
+    simulateUpload();
+}
 
-        closeAuthBtn.addEventListener('click', () => {
-            authModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
+// Format file size
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+}
 
-        authModal.addEventListener('click', (e) => {
-            if (e.target === authModal) {
-                authModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        switchToSignup.addEventListener('click', (e) => {
-            e.preventDefault();
-            isSignupMode = true;
-            authTitle.textContent = 'Create Account';
-            authSubtitle.textContent = 'Start your math competition journey today';
-            authSubmit.textContent = 'Sign Up';
-            authFooterText.innerHTML = 'Already have an account? <a href="#" id="switchToSignin2">Sign in</a>';
-            document.getElementById('switchToSignin2').addEventListener('click', switchToSigninHandler);
-        });
-
-        function switchToSigninHandler(e) {
-            e.preventDefault();
-            isSignupMode = false;
-            authTitle.textContent = 'Welcome Back';
-            authSubtitle.textContent = 'Sign in to continue your training';
-            authSubmit.textContent = 'Sign In';
-            authFooterText.innerHTML = 'Don\'t have an account? <a href="#" id="switchToSignup2">Sign up</a>';
-            document.getElementById('switchToSignup2').addEventListener('click', switchToSignup.click.bind(switchToSignup));
+// Simulate upload progress
+function simulateUpload() {
+    let progress = 0;
+    progressFill.style.width = '0%';
+    progressText.textContent = 'Uploading...';
+    
+    const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            progressText.textContent = 'Upload complete!';
+            generateBtn.disabled = false;
         }
+        
+        progressFill.style.width = progress + '%';
+    }, 200);
+}
 
-        switchToSignin.addEventListener('click', switchToSigninHandler);
+// Remove file
+removeBtn.addEventListener('click', () => {
+    selectedFile = null;
+    fileInput.value = '';
+    
+    // Hide preview and show upload area
+    filePreview.style.display = 'none';
+    uploadArea.style.display = 'block';
+    
+    // Disable generate button
+    generateBtn.disabled = true;
+    
+    // Reset progress
+    progressFill.style.width = '0%';
+});
 
-        // Social auth buttons (these would connect to actual OAuth providers)
-        document.getElementById('googleAuth').addEventListener('click', () => {
-            alert('Google sign-in would be implemented here using OAuth 2.0');
-        });
-
-        document.getElementById('githubAuth').addEventListener('click', () => {
-            alert('GitHub sign-in would be implemented here using OAuth 2.0');
-        });
-
-        // Form submission (this would connect to your backend)
-        document.getElementById('authForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+// Generate study guide
+generateBtn.addEventListener('click', () => {
+    if (!selectedFile) return;
+    
+    // Disable button during processing
+    generateBtn.disabled = true;
+    generateBtn.innerHTML = '<span class="btn-text">Processing...</span>';
+    
+    // Update progress
+    progressText.textContent = 'Analyzing your PDF...';
+    
+    // Simulate processing
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 10;
+        
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
             
-            if (isSignupMode) {
-                alert(`Sign up functionality would create account for: ${email}`);
-            } else {
-                alert(`Sign in functionality would authenticate: ${email}`);
-            }
-        });
+            // Show success modal after processing
+            setTimeout(() => {
+                successModal.style.display = 'flex';
+            }, 500);
+        }
+        
+        progressFill.style.width = progress + '%';
+        
+        // Update progress text based on progress
+        if (progress < 30) {
+            progressText.textContent = 'Analyzing your PDF...';
+        } else if (progress < 60) {
+            progressText.textContent = 'Extracting key concepts...';
+        } else if (progress < 90) {
+            progressText.textContent = 'Generating study materials...';
+        } else {
+            progressText.textContent = 'Finalizing your study guide...';
+        }
+    }, 300);
+});
+
+// View study guide button
+viewBtn.addEventListener('click', () => {
+    // In a real application, this would navigate to the study guide page
+    alert('Redirecting to your study guide...');
+    // window.location.href = 'study-guide.html';
+});
+
+// Close modal when clicking outside
+successModal.addEventListener('click', (e) => {
+    if (e.target === successModal) {
+        successModal.style.display = 'none';
+        
+        // Reset for another upload
+        selectedFile = null;
+        fileInput.value = '';
+        filePreview.style.display = 'none';
+        uploadArea.style.display = 'block';
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '<span class="btn-text">Generate Study Guide</span><span class="btn-icon">→</span>';
+        progressFill.style.width = '0%';
+    }
+});
+
+// Prevent default drag behavior on the whole page
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
+});
+
+document.addEventListener('drop', (e) => {
+    e.preventDefault();
+});
