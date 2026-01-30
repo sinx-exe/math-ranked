@@ -1,0 +1,731 @@
+:root {
+    --primary: #2C5F8D;
+    --secondary: #8B4513;
+    --amc8-color: #2E7D32;
+    --amc8-light: #E8F5E9;
+    --bg: #FAFBFC;
+    --surface: #FFFFFF;
+    --text: #1A1A1A;
+    --text-light: #4A4A4A;
+    --text-muted: #757575;
+    --border: #E1E4E8;
+    --shadow: rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.7;
+}
+
+/* Background Pattern */
+.bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px),
+        repeating-linear-gradient(90deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px);
+    background-size: 50px 50px;
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.25rem 5%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--amc8-color);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--amc8-color);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.btn-signin {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--border);
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.btn-signin:hover {
+    border-color: var(--amc8-color);
+    color: var(--amc8-color);
+}
+
+/* Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 5% 4rem;
+    background: linear-gradient(135deg, var(--amc8-light) 0%, var(--bg) 100%);
+}
+
+.hero-content {
+    max-width: 900px;
+    text-align: center;
+}
+
+.competition-badge {
+    display: inline-block;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    margin-bottom: 2rem;
+}
+
+.competition-badge.amc8 {
+    background: var(--amc8-color);
+    color: white;
+}
+
+.hero h1 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+    letter-spacing: -2px;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.stat-item {
+    padding: 1.5rem;
+    background: var(--surface);
+    border-radius: 12px;
+    border: 2px solid var(--amc8-light);
+}
+
+.stat-value {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--amc8-color);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 1.1rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.btn-primary {
+    background: var(--amc8-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
+}
+
+.btn-primary:hover {
+    background: #1B5E20;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+    border-color: var(--amc8-color);
+    color: var(--amc8-color);
+    transform: translateY(-2px);
+}
+
+.btn-large {
+    padding: 1.25rem 3rem;
+    font-size: 1.1rem;
+}
+
+/* Section Styles */
+section {
+    padding: 6rem 0;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
+    letter-spacing: -1px;
+}
+
+.section-header p {
+    font-size: 1.15rem;
+    color: var(--text-light);
+}
+
+/* Overview Section */
+.overview {
+    background: var(--surface);
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.overview-card {
+    background: var(--bg);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.overview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    border-color: var(--amc8-color);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.overview-card h3 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.overview-card p {
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+/* Topics Section */
+.topics {
+    background: var(--bg);
+}
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.topic-card {
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.topic-card:hover {
+    border-color: var(--amc8-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.topic-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.topic-icon {
+    font-size: 2.5rem;
+}
+
+.topic-card h3 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.topic-list {
+    list-style: none;
+}
+
+.topic-list li {
+    padding: 0.75rem 0;
+    padding-left: 1.5rem;
+    color: var(--text-light);
+    position: relative;
+    border-bottom: 1px solid var(--border);
+}
+
+.topic-list li:last-child {
+    border-bottom: none;
+}
+
+.topic-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--amc8-color);
+    font-weight: bold;
+}
+
+/* Difficulty Section */
+.difficulty {
+    background: var(--surface);
+}
+
+.difficulty-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.difficulty-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.difficulty-bar {
+    position: relative;
+}
+
+.bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.bar-fill {
+    height: 50px;
+    border-radius: 8px;
+    transition: width 0.6s ease;
+}
+
+.difficulty-bar.easy .bar-fill {
+    background: #4CAF50;
+}
+
+.difficulty-bar.medium .bar-fill {
+    background: #FF9800;
+}
+
+.difficulty-bar.hard .bar-fill {
+    background: #F44336;
+}
+
+.difficulty-tips h3 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.tip-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--amc8-color);
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+.tip-item p {
+    color: var(--text-light);
+}
+
+/* Practice Section */
+.practice {
+    background: var(--bg);
+}
+
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.practice-card {
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.practice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.practice-card.featured {
+    border-color: var(--amc8-color);
+    background: linear-gradient(135deg, var(--amc8-light) 0%, var(--surface) 100%);
+}
+
+.practice-badge {
+    position: absolute;
+    top: -12px;
+    left: 2rem;
+    background: var(--amc8-color);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.practice-card h3 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.practice-card p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.practice-features {
+    list-style: none;
+    margin: 1.5rem 0 2rem;
+}
+
+.practice-features li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    color: var(--text-light);
+    position: relative;
+}
+
+.practice-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--amc8-color);
+    font-weight: bold;
+}
+
+/* Resources Section */
+.resources {
+    background: var(--surface);
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.resource-card {
+    background: var(--bg);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.resource-card h3 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+    color: var(--text);
+}
+
+.resource-card ul {
+    list-style: none;
+}
+
+.resource-card ul li {
+    padding: 0.5rem 0;
+    color: var(--text-light);
+}
+
+.resource-card a {
+    color: var(--amc8-color);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.resource-card a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Final CTA Section */
+.final-cta {
+    background: linear-gradient(135deg, var(--amc8-color) 0%, #1B5E20 100%);
+    color: white;
+    padding: 6rem 0;
+}
+
+.cta-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.cta-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+}
+
+.final-cta .btn-primary {
+    background: white;
+    color: var(--amc8-color);
+}
+
+.final-cta .btn-primary:hover {
+    background: var(--amc8-light);
+}
+
+.final-cta .btn-secondary {
+    border-color: white;
+    color: white;
+}
+
+.final-cta .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Footer */
+footer {
+    background: var(--surface);
+    padding: 3rem 0 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-section a:hover {
+    color: var(--amc8-color);
+}
+
+.footer-section p {
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .hero-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .difficulty-content {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .overview-grid,
+    .topics-grid,
+    .practice-grid,
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+}
