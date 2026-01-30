@@ -146,7 +146,7 @@ generateBtn.addEventListener('click', () => {
     // Simulate processing
     let progress = 0;
     const interval = setInterval(() => {
-        progress += Math.random() * 10;
+        progress += Math.random() * 50;
         
         if (progress >= 100) {
             progress = 100;
