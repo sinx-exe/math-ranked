@@ -7,18 +7,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,300&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="upload-styles.css">
+    <!-- PDF.js library for PDF text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        // Configure PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="logo">Study<span>EZ</span></div>
+            <a href="studyez-homepage.html" class="back-btn">← Back to Home</a>
         </div>
 
         <div class="upload-section">
             <div class="upload-content">
                 <h1>Transform Your Notes</h1>
-                <p class="subtitle">Upload your PDF and let AI create a personalized study guide in seconds. No sign-in, no bloatware, just pure studying</p>
+                <p class="subtitle">Upload your PDF and let our AI create a personalized study guide in seconds</p>
 
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon">📄</div>
@@ -110,6 +117,6 @@
         </div>
     </div>
 
-    <script src="index.js"></script>
+    <script src="upload-script.js"></script>
 </body>
 </html>
